@@ -15,6 +15,10 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+// HTTP ve WebSocket Sunucusunu Başlat
+const server = createServer(app);
+const io = initializeSocket(server); // WebSocket'i başlat
+
 app.use("/domains", domainRoutes);
 
 const PORT = process.env.PORT || 5000;
