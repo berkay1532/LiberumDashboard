@@ -2,7 +2,9 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const http = require("http"); // http modülünü ekledik
 const domainRoutes = require("./routes/domainRoutes");
+const initializeSocket = require("./config/socket");
 
 dotenv.config();
 connectDB();
@@ -16,7 +18,7 @@ app.get("/", (req, res) => {
 });
 
 // HTTP ve WebSocket Sunucusunu Başlat
-const server = createServer(app);
+const server = http.createServer(app);
 const io = initializeSocket(server); // WebSocket'i başlat
 
 app.use("/domains", domainRoutes);
