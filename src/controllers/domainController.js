@@ -26,14 +26,21 @@ const getDomainById = async (req, res) => {
 // 📌 Yeni bir domain oluştur
 const createDomain = async (req, res) => {
   try {
-    const { name, owner, nft_id, expire_date } = req.body;
+    const { name, owner, nft_id, expire_date, linkedContractAddress } =
+      req.body;
 
     const domainExists = await Domain.findOne({ name });
     if (domainExists) {
       return res.status(400).json({ message: "Domain already exists" });
     }
 
-    const domain = new Domain({ name, owner, nft_id, expire_date });
+    const domain = new Domain({
+      name,
+      owner,
+      nft_id,
+      expire_date,
+      linkedContractAddress,
+    });
     await domain.save();
     res.status(201).json(domain);
   } catch (error) {
@@ -44,7 +51,14 @@ const createDomain = async (req, res) => {
 // 📌 Domain güncelleme
 const updateDomain = async (req, res) => {
   try {
-    const { name, owner, nft_id, expire_date, visit_count } = req.body;
+    const {
+      name,
+      owner,
+      nft_id,
+      expire_date,
+      visit_count,
+      linkedContractAddress,
+    } = req.body;
     const domain = await Domain.findById(req.params.id);
 
     if (!domain) {
@@ -57,7 +71,8 @@ const updateDomain = async (req, res) => {
     domain.expire_date = expire_date || domain.expire_date;
     domain.visit_count =
       visit_count !== undefined ? visit_count : domain.visit_count;
-
+    domain.linkedContractAddress =
+      linkedContractAddress || domain.linkedContractAddress;
     const updatedDomain = await domain.save();
     res.json(updatedDomain);
   } catch (error) {
