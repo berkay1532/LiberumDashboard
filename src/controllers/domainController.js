@@ -123,6 +123,7 @@ const incrementVisitCount = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
+    
 };
 
 module.exports = {
