@@ -6,9 +6,10 @@ const initializeSocket = (server) => {
   const io = new Server(server, {
     cors: {
       origin: "*",
+      methods: ["GET", "POST"],
     },
   });
-
+  console.log("OYOYOYOYOYO");
   io.on("connection", (socket) => {
     console.log("Yeni kullanıcı bağlandı:", socket.id);
 
