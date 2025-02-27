@@ -26,8 +26,14 @@ const getDomainById = async (req, res) => {
 // 📌 Yeni bir domain oluştur
 const createDomain = async (req, res) => {
   try {
-    const { name, owner, nft_id, expire_date, linkedContractAddress } =
-      req.body;
+    const {
+      name,
+      owner,
+      nft_id,
+      expire_date,
+      linkedContractAddress,
+      image_url,
+    } = req.body;
 
     const domainExists = await Domain.findOne({ name });
     if (domainExists) {
@@ -40,6 +46,7 @@ const createDomain = async (req, res) => {
       nft_id,
       expire_date,
       linkedContractAddress,
+      image_url,
     });
     await domain.save();
     res.status(201).json(domain);
@@ -58,6 +65,7 @@ const updateDomain = async (req, res) => {
       expire_date,
       visit_count,
       linkedContractAddress,
+      image_url,
     } = req.body;
     const domain = await Domain.findById(req.params.id);
 
@@ -69,6 +77,7 @@ const updateDomain = async (req, res) => {
     domain.owner = owner || domain.owner;
     domain.nft_id = nft_id || domain.nft_id;
     domain.expire_date = expire_date || domain.expire_date;
+    domain.image_url = image_url || domain.image_url;
     domain.visit_count =
       visit_count !== undefined ? visit_count : domain.visit_count;
     domain.linkedContractAddress =
