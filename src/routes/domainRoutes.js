@@ -6,11 +6,15 @@ const {
   updateDomain,
   deleteDomain,
   incrementVisitCount,
+  getTrendingDomains,
+  getNewestDomains,
 } = require("../controllers/domainController");
 
 const router = express.Router();
 
 router.get("/", getDomains); // Tüm domainleri getir
+router.get("/trending", getTrendingDomains); // Trending domainleri getir (ziyaret sayısına göre sıralı)
+router.get("/newest", getNewestDomains); // En yeni domainleri getir
 router.get("/:id", getDomainById); // Tek bir domain getir
 router.post("/", createDomain); // Yeni domain oluştur
 router.put("/:id", updateDomain); // Domain güncelle
