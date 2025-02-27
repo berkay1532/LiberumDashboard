@@ -3,8 +3,12 @@ const Domain = require("../models/domainModel");
 // 📌 Tüm domainleri getir
 const getDomains = async (req, res) => {
   try {
-    const domains = await Domain.find();
-    res.json(domains);
+    let limit = parseInt(req.query.limit) || 10; // Query param'dan limit al, yoksa varsayılan 10 kullan
+    const totalMinted = await Domain.countDocuments();
+
+
+    const domains = await Domain.find().limit(limit);
+    res.json({totalMinted, domains});
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
@@ -116,6 +120,28 @@ const incrementVisitCount = async (req, res) => {
   }
 };
 
+const getTrendingDomains = async (req, res) => { 
+  try {
+    const domains = await Domain.find().sort({ visit_count: -1 }).limit(10);
+    res.json(domains);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+const getNewestDomains = async (req, res) => {
+  try {
+    const domains = await Domain.find().sort({createdAt: -1}).limit(10);
+    res.json(domains);
+  }catch(error){
+    res.status(500).json({message: "Server Error", error: error.message});
+
+  }
+
+};
+
+
+
 module.exports = {
   getDomains,
   getDomainById,
@@ -123,4 +149,6 @@ module.exports = {
   updateDomain,
   deleteDomain,
   incrementVisitCount,
+  getTrendingDomains,
+  getNewestDomains,
 };

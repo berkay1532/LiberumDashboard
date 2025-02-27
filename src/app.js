@@ -7,6 +7,9 @@ const domainRoutes = require("./routes/domainRoutes");
 const initializeSocket = require("./config/socket");
 
 dotenv.config();
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("PORT:", process.env.PORT);
+
 connectDB();
 
 const app = express();
