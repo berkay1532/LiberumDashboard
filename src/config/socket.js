@@ -9,7 +9,6 @@ const initializeSocket = (server) => {
       methods: ["GET", "POST"],
     },
   });
-  console.log("OYOYOYOYOYO");
   io.on("connection", (socket) => {
     console.log("Yeni kullanıcı bağlandı:", socket.id);
 

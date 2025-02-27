@@ -91,6 +91,24 @@ const updateDomain = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+// 📌 Domain silme
+
+const updateImageUrl = async (req, res) => {
+  try {
+    const { image_url } = req.body;
+    const domain = await Domain.findById(req.params.id);
+
+    if (!domain) {
+      return res.status(404).json({ message: "Domain not found" });
+    }
+
+    domain.image_url = image_url || domain.image_url;
+    const updatedDomain = await domain.save();
+    res.json(updatedDomain);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
 
 // 📌 Domain silme
 const deleteDomain = async (req, res) => {
@@ -151,6 +169,7 @@ module.exports = {
   getDomainById,
   createDomain,
   updateDomain,
+  updateImageUrl,
   deleteDomain,
   incrementVisitCount,
   getTrendingDomains,
