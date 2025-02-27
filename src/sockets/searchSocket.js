@@ -32,15 +32,21 @@ const searchSocketHandler = (socket) => {
         return;
       }
 
-      // MongoDB'de domainleri arama (case insensitive)
+      // Case insensitive tam eşleşen domaini bul
+      const exactMatch = await Domain.findOne({
+        name: { $regex: `^${query}$`, $options: "i" },
+      });
+
+      // İçinde geçenleri ara (tam eşleşme dahil)
       const domains = await Domain.find({
         name: { $regex: query, $options: "i" },
       });
 
-      // Eğer sonuç yoksa öneri olarak ".lib" uzantılı domain ekle
-      if (domains.length === 0) {
+      // Eğer tam olarak aynı isimde bir domain yoksa, öneri olarak ".lib" ekle
+      if (!exactMatch) {
         domains.push({
           name: `${query}.lib`,
+          available: true, // Kullanıcının kaydedebileceğini belirtmek için
         });
       }
 
