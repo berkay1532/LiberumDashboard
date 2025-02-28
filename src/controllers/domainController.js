@@ -76,8 +76,7 @@ const getDomainsByNames = async (req, res) => {
     return res.status(200).json(foundDomains);
   } catch (error) {
     console.error(error);
-      return res.status(500).json({ error: "Internal server error" });
-      
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -152,12 +151,14 @@ const deleteDomain = async (req, res) => {
 // 📌 Domain ziyaret sayısını artırma
 const incrementVisitCount = async (req, res) => {
   try {
-    const domain = await Domain.findById(req.params.id);
+    const domain = await Domain.findOne({
+      name: req.params.domain,
+    });
 
     if (!domain) {
       return res.status(404).json({ message: "Domain not found" });
     }
-
+    console.log(domain);
     domain.visit_count += 1;
     await domain.save();
     res.json({
