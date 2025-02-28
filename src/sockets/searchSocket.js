@@ -19,7 +19,6 @@ const searchSocketHandler = (socket) => {
           name: `${query}.lib`,
         });
       }
-
       // İçinde geçenleri ara (tam eşleşme dahil)
       domains = await Domain.find({
         name: { $regex: query, $options: "i" },
