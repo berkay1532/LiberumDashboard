@@ -58,6 +58,29 @@ const createDomain = async (req, res) => {
   }
 };
 
+const getDomainsByNames = async (req, res) => {
+  try {
+    const { domains } = req.body;
+
+    if (!Array.isArray(domains)) {
+      return res.status(400).json({ error: "domains should be an array" });
+    }
+
+    const foundDomains = await DomainModel.find({
+      name: { $in: domains },
+    });
+
+    if (!foundDomains.length) {
+      return res.status(404).json({ message: "No domains found" });
+    }
+
+    return res.status(200).json(foundDomains);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // 📌 Domain güncelleme
 const updateDomain = async (req, res) => {
   try {
@@ -174,4 +197,5 @@ module.exports = {
   incrementVisitCount,
   getTrendingDomains,
   getNewestDomains,
+  getDomainsByNames,
 };
