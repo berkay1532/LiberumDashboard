@@ -7,15 +7,10 @@ const searchSocketHandler = (socket) => {
         socket.emit("searchResults", []);
         return;
       }
-
+      let domains = [];
       // Case insensitive tam eşleşen domaini bul
       const exactMatch = await Domain.findOne({
         name: { $regex: `^${query}$`, $options: "i" },
-      });
-
-      // İçinde geçenleri ara (tam eşleşme dahil)
-      const domains = await Domain.find({
-        name: { $regex: query, $options: "i" },
       });
 
       // Eğer tam olarak aynı isimde bir domain yoksa, öneri olarak ".lib" ekle
@@ -24,6 +19,11 @@ const searchSocketHandler = (socket) => {
           name: `${query}.lib`,
         });
       }
+
+      // İçinde geçenleri ara (tam eşleşme dahil)
+      domains = await Domain.find({
+        name: { $regex: query, $options: "i" },
+      });
 
       socket.emit("searchResults", domains);
     } catch (error) {
