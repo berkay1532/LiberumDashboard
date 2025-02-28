@@ -91,7 +91,11 @@ We have prepared a **pitch deck** (included in this repository) illustrating how
 
 We welcome contributions from the community! To get involved:
 
-1. **Clone the Repository:** `git clone https://github.com/your-org/liberum.git`
+1. **Clone the Repositories:**
+ `git clone https://github.com/berkay1532/LiberumContracts.git`
+ `git clone https://github.com/berkay1532/LiberumDashboard.git`
+ `git clone https://github.com/KkutaySarii/liberum-frontend.git`
+ `git clone https://github.com/KkutaySarii/liberum-plugin.git`
 2. **Install Dependencies:** Run `npm install` or `yarn install`.
 3. **Open a Pull Request:** Propose changes or new features via a pull request, and we’ll review it as soon as possible.
 
