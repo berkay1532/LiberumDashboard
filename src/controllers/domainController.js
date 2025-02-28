@@ -65,8 +65,7 @@ const getDomainsByNames = async (req, res) => {
     if (!Array.isArray(domains)) {
       return res.status(400).json({ error: "domains should be an array" });
     }
-
-    const foundDomains = await DomainModel.find({
+    const foundDomains = await Domain.find({
       name: { $in: domains },
     });
 
